@@ -1,9 +1,20 @@
+using CapeTownMunicipalityApp.Models;
+using CapeTownMunicipalityApp.Services;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddDbContext<LocalDbContext>(options => options.UseSqlite(builder.Configure.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped<IReportService, ReportService>();
 var app = builder.Build();
+
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -24,4 +35,9 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.Run();
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<LocalDbContext>();
+    db.Database.Migrate();
+}
+    app.Run();
