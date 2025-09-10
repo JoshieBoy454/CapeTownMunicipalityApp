@@ -1,6 +1,6 @@
 ﻿namespace CapeTownMunicipalityApp.Models
 {
-    public enum ReportCategories
+    public enum ReportCategory
     {
         Sanitation,
         Roads,
