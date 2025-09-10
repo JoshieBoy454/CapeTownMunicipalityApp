@@ -1,8 +1,28 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    Layout = null;
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Municipal Portal</title>
+    <style>
+        body { font-family: Arial, Helvetica, sans-serif; display:flex; height:100vh; margin:0; }
+        .center { margin:auto; text-align:center; }
+        .widgets { display:flex; gap:20px; justify-content:center; align-items:center; }
+        .widget { width:220px; height:140px; border-radius:8px; box-shadow: 0 2px 6px rgba(0,0,0,.15); display:flex; align-items:center; justify-content:center; cursor:pointer; }
+        .widget:hover { transform: translateY(-6px); transition: .15s; }
+        a { text-decoration:none; color:inherit; display:block; height:100%; width:100%; padding:10px; }
+    </style>
+</head>
+<body>
+    <div class="center">
+        <h1>Municipal Services Portal</h1>
+        <div class="widgets">
+            <div class="widget" style="background:#f7c6c6"><a href="/Report/Form">Report Issues</a></div>
+            <div class="widget" style="background:#c6e7f7"><a href="/EventsAndAnnouncements/Temp">Local Events & Announcements</a></div>
+            <div class="widget" style="background:#d6f7c6"><a href="/Services/Temp">Services Request Status</a></div>
+        </div>
+    </div>
+</body>
+</html>

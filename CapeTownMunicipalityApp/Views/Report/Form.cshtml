@@ -1,5 +1,132 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using Microsoft.AspNetCore.Http
+@using System.Linq
 @{
+    Layout = null;
+    var categories = Enum.GetValues(typeof(ReportCategory)).Cast<ReportCategory>().ToList();
 }
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Report Issue</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .back {
+            position: fixed;
+            left: 16px;
+            top: 16px;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            background: #eee;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 48px auto;
+        }
+
+        .field {
+            margin-bottom: 12px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .progress-wrap {
+            height: 12px;
+            background: #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            transition: width .2s;
+        }
+
+        .submit-btn {
+            padding: 10px 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="back" onclick="location.href='/'">
+        <!-- Arrow shaped button -->
+        <svg width="20" height="20" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" stroke="#333" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    </div>
+
+    <div class="container">
+        <h2>Report an Issue</h2>
+
+        <div class="progress-wrap" aria-hidden="true">
+            <div id="progressBar" class="progress-bar" style="background:linear-gradient(90deg,#4caf50,#8bc34a)"></div>
+        </div>
+
+        <form id="reportForm" method="post" enctype="multipart/form-data" asp-controller="Report" asp-action="Submit">
+            <div class="field">
+                <label>Location</label>
+                <input id="location" name="location" type="text" />
+            </div>
+
+            <div class="field">
+                <label>Category</label>
+                <select id="category" name="category">
+                    @foreach (var c in categories)
+                    {
+                        <option value="@c">@c</option>
+                    }
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Description</label>
+                <textarea id="description" name="description" rows="6"></textarea>
+            </div>
+
+            <div class="field">
+                <label>Attach images/documents</label>
+                <input id="attachments" name="attachments" type="file" multiple />
+            </div>
+
+            <button type="submit" class="submit-btn">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        // Progress bar logic: fields considered = location, category (non-empty), description, attachments
+        const progressBar = document.getElementById('progressBar');
+        const locationInput = document.getElementById('location');
+        const categorySelect = document.getElementById('category');
+        const desc = document.getElementById('description');
+        const attachments = document.getElementById('attachments');
+
+        const fields = [locationInput, categorySelect, desc, attachments];
+
+        function computeProgress() {
+            let filled = 0;
+            if (locationInput.value.trim().length > 0) filled++;
+            if (categorySelect.value && categorySelect.value.length > 0) filled++;
+            if (desc.value.trim().length > 0) filled++;
+            if (attachments.files && attachments.files.length > 0) filled++;
+            const percent = Math.round((filled / fields.length) * 100);
+            progressBar.style.width = percent + '%';
+        }
+
+        fields.forEach(f => f.addEventListener('input', computeProgress));
+        attachments.addEventListener('change', computeProgress);
+
+        // initialize
+        computeProgress();
+    </script>
+</body>
+</html>
