@@ -1,5 +1,6 @@
 using CapeTownMunicipalityApp.Models;
 using CapeTownMunicipalityApp.Services;
+using Microsoft.EntityFrameworkCore.Sqlite;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext<LocalDbContext>(options => options.UseSqlite(builder.Configure.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<LocalDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IReportService, ReportService>();
 var app = builder.Build();
 

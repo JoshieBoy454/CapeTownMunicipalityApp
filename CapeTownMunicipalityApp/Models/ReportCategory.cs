@@ -5,6 +5,6 @@
         Sanitation,
         Roads,
         Utilities,
-        other
+        Other
     }
 }

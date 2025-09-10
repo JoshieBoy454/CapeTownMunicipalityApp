@@ -19,7 +19,7 @@ namespace CapeTownMunicipalityApp.Controllers
         public async Task<IActionResult> Submit(string location, ReportCategory category, string description, List<IFormFile> attatchments)
         {
             var reort = await _reportService.CreateReportAsync(location ?? "", category, description ?? "", attatchments);
-            return View("/Home/Index");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

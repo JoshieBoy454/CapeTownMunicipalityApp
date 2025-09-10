@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CapeTownMunicipalityApp.Services
 {
-    public class ReportService
+    public class ReportService : IReportService
     {
         private readonly LocalDbContext _db;
         private readonly string _imagePath;
@@ -43,7 +43,7 @@ namespace CapeTownMunicipalityApp.Services
                 {
                     ReportId = report.Id,
                     FileName = f.FileName,
-                    FilePath = $"/uploads/{fileName}",
+                    FilePath = $"/images/{fileName}",
                 };
                 _db.ReportAttatchment.Add(attatchment);
                 report.Attatchments.Add(attatchment);
@@ -51,8 +51,16 @@ namespace CapeTownMunicipalityApp.Services
             await _db.SaveChangesAsync();
 
             _reportList.AddLast(report);
-            _reportAttatchmentList.AddLast(report.Id);
+            foreach (var a in report.Attatchments)
+            {
+                _reportAttatchmentList.AddLast(a);
+            }
             return report;
+        }
+
+        public Task<IEnumerable<Report>> GetAllReportsAsync()
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<Report?> GetReportAsync(int id)
