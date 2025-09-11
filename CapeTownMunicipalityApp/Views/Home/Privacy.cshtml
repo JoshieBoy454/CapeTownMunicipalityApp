@@ -9,7 +9,7 @@
 
 <form method="post" asp-action="ChangeLanguage">
     <div style="margin-bottom:16px;">
-        <label style="font-weight:600; margin-right:8px;">@Localizer["SelectLanguage"]</label>
+        <label style="font-weight:600; margin-right:8px;">@Localizer["Select Language"]</label>
         <select name="culture" style="padding:6px 10px; border-radius:4px; border:1px solid #ccc;">
             <option value="en">English</option>
             <option value="af">Afrikaans</option>
@@ -17,7 +17,9 @@
 			<option value="xh">Xhosa</option>
         </select>
     </div>
+    <input type="hidden" name="returnUrl" value="@Context.Request.Path.ToString()"/>
     <button type="submit" style="padding:8px 16px; background:#B0C434; color:#fff; border:none; border-radius:6px; cursor:pointer;">
         @Localizer["Done"]
     </button>
 </form>
+

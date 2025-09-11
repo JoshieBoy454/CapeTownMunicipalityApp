@@ -1,6 +1,8 @@
-﻿@{
-    ViewData["Title"] = "Events";
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = @Localizer["Events"];
 }
-<h1>Local Events and Announcements</h1>
+<h1>@Localizer["Local Events and Announcements"]</h1>
 
-<p>This feature is to be implemented later</p>
+<p>@Localizer["This feature is to be implemented later"]</p>

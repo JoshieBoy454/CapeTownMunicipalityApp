@@ -10,11 +10,13 @@ Batteries.Init();
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
-
-// Multi-Language Support
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+// Add services to the container.
+builder.Services.AddControllersWithViews()
+    .AddViewLocalization()
+    .AddDataAnnotationsLocalization();
+// Multi-Language Support
+
 var supportedCultures = new[]
 {
     new CultureInfo("en"),// English
@@ -36,6 +38,7 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     options.DefaultRequestCulture = new RequestCulture("en");
     options.SupportedCultures = supportedCultures;
     options.SupportedUICultures = supportedCultures;
+    options.RequestCultureProviders.Insert(0, new CookieRequestCultureProvider());
 });
 
 
@@ -44,7 +47,6 @@ builder.Services.AddDbContext<LocalDbContext>(options =>
 builder.Services.AddScoped<IReportService, ReportService>();
 var app = builder.Build();
 
-app.UseRequestLocalization(app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
 
 using (var scope = app.Services.CreateScope())
 {
@@ -64,7 +66,17 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+
+
 app.UseRouting();
+app.UseRequestLocalization(app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
+app.Use(async (context, next) =>
+{
+    var rqf = context.Features.Get<IRequestCultureFeature>();
+    var culture = rqf?.RequestCulture.Culture.Name ?? "null";
+    Console.WriteLine($" Current Culture: {culture}");
+    await next.Invoke();
+});
 
 app.UseAuthorization();
 

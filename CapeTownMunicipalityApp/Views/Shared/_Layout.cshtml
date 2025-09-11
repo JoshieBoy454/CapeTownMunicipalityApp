@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -27,26 +29,26 @@
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <a class="btn me-2 @(ViewData["Title"]?.ToString() == "Home" ? "active-nav" : "")"
-                               asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                               asp-area="" asp-controller="Home" asp-action="Index">@Localizer["Home"]</a>
                         </li>
                         <li class="nav-item">
                             <a class="btn  me-2 @(ViewData["Title"]?.ToString() == "Report" ? "active-nav" : "")"
-                               asp-area="" asp-controller="Report" asp-action="Form">Report</a>
+                               asp-area="" asp-controller="Report" asp-action="Form">@Localizer["Report"]</a>
                         </li>
                         <li class="nav-item">
                             <a class="btn me-2 @(ViewData["Title"]?.ToString() == "Events" ? "active-nav" : "")"
-                               asp-area="" asp-controller="EventsAndAnnouncements" asp-action="Temp">Events</a>
+                               asp-area="" asp-controller="EventsAndAnnouncements" asp-action="Temp">@Localizer["Events"]</a>
                         </li>
                         <li class="nav-item">
                             <a class="btn me-2 @(ViewData["Title"]?.ToString() == "Services" ? "active-nav" : "")"
-                               asp-area="" asp-controller="Services" asp-action="Temp">Services</a>
+                               asp-area="" asp-controller="Services" asp-action="Temp">@Localizer["Services"]</a>
                         </li>
                     </ul>
 
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
                             <a class="btn me-2 @(ViewData["Title"]?.ToString() == "Settings" ? "active-nav" : "")"
-                               asp-area="" asp-controller="Home" asp-action="Privacy">Settings</a>
+                               asp-area="" asp-controller="Home" asp-action="Privacy">@Localizer["Settings"]</a>
                         </li>
                     </ul>
                 </div>

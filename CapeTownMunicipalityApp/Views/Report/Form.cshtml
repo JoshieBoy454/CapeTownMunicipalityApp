@@ -1,23 +1,25 @@
 ﻿@using Microsoft.AspNetCore.Http
 @using System.Linq
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Report";
+    ViewData["Title"] = @Localizer["Report"];
     var categories = Enum.GetValues(typeof(ReportCategory)).Cast<ReportCategory>().ToList();
 }
 <div class="report-container">
     <h2 class="report-title">
-        Report an Issue
+        @Localizer["Report an Issue"]"
         <span class="report-title-underline"></span>
     </h2>
 
     <form id="reportForm" method="post" enctype="multipart/form-data" asp-controller="Report" asp-action="Submit">
         <div class="field">
-            <label>Location</label>
-            <input id="location" name="location" type="text" placeholder="Enter location..." />
+            <label>@Localizer["Location"]</label>
+            <input id="location" name="location" type="text" placeholder="@Localizer["Enter location"]..." />
         </div>
 
         <div class="field">
-            <label>Category</label>
+            <label>@Localizer["Category"]</label>
             <select id="category" name="category">
                 <option value="">-- None --</option>
                 @foreach (var c in categories)
@@ -28,16 +30,16 @@
         </div>
 
         <div class="field">
-            <label>Description</label>
-            <textarea id="description" name="description" rows="6" placeholder="Describe the issue..."></textarea>
+            <label>@Localizer["Description"]</label>
+            <textarea id="description" name="description" rows="6" placeholder="@Localizer["Describe the issue"]..."></textarea>
         </div>
 
         <div class="field">
-            <label>Attach images/documents</label>
+            <label>@Localizer["Attach documents"]</label>
             <input id="attachments" name="attachments" type="file" multiple />
         </div>
 
-        <button type="submit" class="submit-btn">Submit</button>
+        <button type="submit" class="submit-btn">@Localizer["Submit"]</button>
     </form>
 </div>
 

@@ -1,5 +1,7 @@
-﻿@{
-    ViewData["Title"] = "Home";
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = @Localizer["Home"];
 }
 
 <style>
@@ -72,24 +74,24 @@
         <div class="col-md-4">
             <a href="/Report/Form" style="text-decoration:none;">
                 <div class="widget-card">
-                    <div class="widget-title">Report Issues</div>
-                    <div class="widget-desc">Quickly log problems in your area for review.</div>
+                    <div class="widget-title">@Localizer["Report Issues"]</div>
+                    <div class="widget-desc">@Localizer["Quickly log problems in your area for review"]</div>
                 </div>
             </a>
         </div>
         <div class="col-md-4">
             <a href="/EventsAndAnnouncements/Temp" style="text-decoration:none;">
                 <div class="widget-card">
-                    <div class="widget-title">Local Events</div>
-                    <div class="widget-desc">Stay informed about upcoming activities and news.</div>
+                    <div class="widget-title">@Localizer["Local Events"]</div>
+                    <div class="widget-desc">@Localizer["Stay informed about upcoming activities and news"]</div>
                 </div>
             </a>
         </div>
         <div class="col-md-4">
             <a href="/Services/Temp" style="text-decoration:none;">
                 <div class="widget-card">
-                    <div class="widget-title">Service Requests</div>
-                    <div class="widget-desc">Check the progress of services you’ve made requests on.</div>
+                    <div class="widget-title">@Localizer["Service Requests"]</div>
+                    <div class="widget-desc">@Localizer["Check the progress of services you’ve made requests on"]</div>
                 </div>
             </a>
         </div>

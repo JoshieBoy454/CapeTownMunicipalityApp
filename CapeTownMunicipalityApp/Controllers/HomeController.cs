@@ -17,6 +17,8 @@ namespace CapeTownMunicipalityApp.Controllers
         public IActionResult Index()
         {
             ViewData["Title"] = "Home";
+            ViewData["CurrentCulture"] = Thread.CurrentThread.CurrentCulture.Name;
+
             return View();
         }
 
@@ -28,14 +30,14 @@ namespace CapeTownMunicipalityApp.Controllers
 
         [HttpPost]
         // Using the cookies to save what language the applicaiotn will be in that way if it is closed and reopened it will still be in the selected language
-        public IActionResult ChangeLanguage(string culture, string returnUrl = null)
+        public IActionResult ChangeLanguage(string culture, string returnUrl)
         {
             Response.Cookies.Append(
                 CookieRequestCultureProvider.DefaultCookieName,
                 CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
-                new Microsoft.AspNetCore.Http.CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
             );
-            return LocalRedirect(returnUrl ?? "/");
+            return LocalRedirect(returnUrl);
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
