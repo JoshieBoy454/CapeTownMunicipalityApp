@@ -15,10 +15,10 @@ namespace CapeTownMunicipalityApp.Services
         {
             _db = db;
             _imagePath = Path.Combine(env.WebRootPath, "images");
-            if (!Directory.Exists(_imagePath)) Directory.CreateDirectory(_imagePath);
-            var existing = _db.Report.Include(r => r.Attatchments).OrderBy(r => r.Id).ToList();
-            foreach(var r in existing) _reportList.AddLast(r);
+            if (!Directory.Exists(_imagePath))
+                Directory.CreateDirectory(_imagePath);
         }
+
         public async Task<Report> CreateReportAsync(string location, ReportCategory category, string description, IEnumerable<IFormFile> files)
         {
             var report = new Report
@@ -30,7 +30,7 @@ namespace CapeTownMunicipalityApp.Services
             _db.Report.Add(report);
             await _db.SaveChangesAsync();
 
-            foreach(var f in files?? Enumerable.Empty<IFormFile>())
+            foreach (var f in files ?? Enumerable.Empty<IFormFile>())
             {
                 if (f.Length <= 0) continue;
                 var fileName = $"{Guid.NewGuid()}{Path.GetExtension(f.FileName)}";
@@ -39,14 +39,14 @@ namespace CapeTownMunicipalityApp.Services
                 {
                     await f.CopyToAsync(fs);
                 }
-                var attatchment = new ReportAttatchment
+                var attachment = new ReportAttatchment
                 {
                     ReportId = report.Id,
                     FileName = f.FileName,
                     FilePath = $"/images/{fileName}",
                 };
-                _db.ReportAttatchment.Add(attatchment);
-                report.Attatchments.Add(attatchment);
+                _db.ReportAttatchment.Add(attachment);
+                report.Attatchments.Add(attachment);
             }
             await _db.SaveChangesAsync();
 
@@ -58,16 +58,26 @@ namespace CapeTownMunicipalityApp.Services
             return report;
         }
 
-        public Task<IEnumerable<Report>> GetAllReportsAsync()
+        public async Task<IEnumerable<Report>> GetAllReportsAsync()
         {
-            throw new NotImplementedException();
+            var reports = await _db.Report.Include(r => r.Attatchments).OrderBy(r => r.Id).ToListAsync();
+            _reportList.Clear();
+            foreach (var r in reports) _reportList.AddLast(r);
+            return reports;
         }
 
         public async Task<Report?> GetReportAsync(int id)
         {
             foreach (var r in _reportList)
                 if (r.Id == id) return r;
-            return await _db.Report.Include(r => r.Attatchments).FirstOrDefaultAsync(r => r.Id == id);
+            var report = await _db.Report.Include(r => r.Attatchments).FirstOrDefaultAsync(r => r.Id == id);
+            if (report != null)
+            {
+                _reportList.AddLast(report);
+                foreach (var a in report.Attatchments)
+                    _reportAttatchmentList.AddLast(a);
+            }
+            return report;
         }
     }
 }

@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CapeTownMunicipalityApp.Controllers
 {
-    public class ReportsController : Controller
+    public class ReportController : Controller
     {
         private readonly IReportService _reportService;
-        public ReportsController(IReportService reportService)
+        public ReportController(IReportService reportService)
         {
             _reportService = reportService;
         }

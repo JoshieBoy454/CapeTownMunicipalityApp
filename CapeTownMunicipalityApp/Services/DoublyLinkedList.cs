@@ -46,6 +46,12 @@ namespace CapeTownMunicipalityApp.Services
                 late = late.Next;
             }
         }
+        public void Clear()
+        {
+            Head = null;
+            Tail = null;
+            Count = 0;
+        }
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

@@ -61,7 +61,6 @@
 </head>
 <body>
     <div class="back" onclick="location.href='/'">
-        <!-- Arrow shaped button -->
         <svg width="20" height="20" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" stroke="#333" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" /></svg>
     </div>
 
@@ -103,7 +102,6 @@
     </div>
 
     <script>
-        // Progress bar logic: fields considered = location, category (non-empty), description, attachments
         const progressBar = document.getElementById('progressBar');
         const locationInput = document.getElementById('location');
         const categorySelect = document.getElementById('category');
@@ -125,7 +123,6 @@
         fields.forEach(f => f.addEventListener('input', computeProgress));
         attachments.addEventListener('change', computeProgress);
 
-        // initialize
         computeProgress();
     </script>
 </body>
