@@ -1,6 +1,23 @@
-﻿@{
-    ViewData["Title"] = "Settings";
-}
-<h1>@ViewData["Title"]</h1>
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
-<p>Use this page to detail your site's privacy policy.</p>
+@{
+    ViewData["Title"] = Localizer["Settings"];
+}
+
+<h2>@Localizer["Settings"]</h2>
+
+<form method="post" asp-action="ChangeLanguage">
+    <div style="margin-bottom:16px;">
+        <label style="font-weight:600; margin-right:8px;">@Localizer["SelectLanguage"]</label>
+        <select name="culture" style="padding:6px 10px; border-radius:4px; border:1px solid #ccc;">
+            <option value="en">English</option>
+            <option value="af">Afrikaans</option>
+            <option value="zu">Zulu</option>
+			<option value="xh">Xhosa</option>
+        </select>
+    </div>
+    <button type="submit" style="padding:8px 16px; background:#B0C434; color:#fff; border:none; border-radius:6px; cursor:pointer;">
+        @Localizer["Done"]
+    </button>
+</form>

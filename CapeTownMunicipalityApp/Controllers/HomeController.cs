@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using CapeTownMunicipalityApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Localization;
 
 namespace CapeTownMunicipalityApp.Controllers
 {
@@ -25,6 +26,17 @@ namespace CapeTownMunicipalityApp.Controllers
             return View();
         }
 
+        [HttpPost]
+        // Using the cookies to save what language the applicaiotn will be in that way if it is closed and reopened it will still be in the selected language
+        public IActionResult ChangeLanguage(string culture, string returnUrl = null)
+        {
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new Microsoft.AspNetCore.Http.CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            );
+            return LocalRedirect(returnUrl ?? "/");
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

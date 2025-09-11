@@ -1,11 +1,10 @@
 using CapeTownMunicipalityApp.Models;
 using CapeTownMunicipalityApp.Services;
 using SQLitePCL;
-using Microsoft.EntityFrameworkCore.Sqlite;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Options;
+using System.Globalization;
 
 Batteries.Init();
 
@@ -14,11 +13,38 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// Multi-Language Support
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+var supportedCultures = new[]
+{
+    new CultureInfo("en"),// English
+    new CultureInfo("af"),// Afrikaans
+    new CultureInfo("xh"),// isiXhosa
+    new CultureInfo("zu"),// isiZulu
+
+    // To be implemented later
+    //new CultureInfo("ns"),// isiNdebele
+    //new CultureInfo("st"),// Sesotho
+    //new CultureInfo("nso"),// Sepedi
+    //new CultureInfo("tn"),// Setswana
+    //new CultureInfo("ss"),// siSwati
+    //new CultureInfo("ve"),// Tshivenda
+    //new CultureInfo("ts")// Xitsonga
+};
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    options.DefaultRequestCulture = new RequestCulture("en");
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+});
+
+
 builder.Services.AddDbContext<LocalDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IReportService, ReportService>();
 var app = builder.Build();
 
+app.UseRequestLocalization(app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
 
 using (var scope = app.Services.CreateScope())
 {
