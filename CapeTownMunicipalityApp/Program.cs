@@ -1,10 +1,13 @@
 using CapeTownMunicipalityApp.Models;
 using CapeTownMunicipalityApp.Services;
+using SQLitePCL;
 using Microsoft.EntityFrameworkCore.Sqlite;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
+Batteries.Init();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +39,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
 using (var scope = app.Services.CreateScope())
 {

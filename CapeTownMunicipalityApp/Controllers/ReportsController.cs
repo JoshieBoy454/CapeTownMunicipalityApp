@@ -12,8 +12,9 @@ namespace CapeTownMunicipalityApp.Controllers
             _reportService = reportService;
         }
 
-        public IActionResult Index()
+        public IActionResult Form()
         {
+            ViewData["Title"] = "Form";
             return View();
         }
         public async Task<IActionResult> Submit(string location, ReportCategory category, string description, List<IFormFile> attatchments)

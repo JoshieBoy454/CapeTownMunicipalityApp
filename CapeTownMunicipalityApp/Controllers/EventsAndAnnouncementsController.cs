@@ -6,6 +6,7 @@ namespace CapeTownMunicipalityApp.Controllers
     {
         public IActionResult Temp()
         {
+            ViewData["Title"] = "Events";
             return View();
         }
     }
