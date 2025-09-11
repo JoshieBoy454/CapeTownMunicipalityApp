@@ -40,7 +40,7 @@ The Municipal Services User Engagement App is designed to:
 1. **Clone the Repository**
 
 ```bash
-git clone <repository_url>
+git clone [repository_url](https://github.com/JoshieBoy454/CapeTownMunicipalityApp.git)
 ```
 
 2. **Open Project in Visual Studio**
