@@ -62,7 +62,8 @@ The Municipal Services User Engagement App is designed to:
 
 ## Prerequisites
 
-* [Android Studio](https://developer.android.com/studio)
+[![Visual Studio](https://img.shields.io/badge/Visual_Studio-IDE-5C2D91?style=for-the-badge&logo=visualstudio&logoColor=white)](https://visualstudio.microsoft.com/)
+
 * Internet connection for live updates and service requests
 
 ---
