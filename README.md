@@ -50,13 +50,13 @@ The Municipal Services User Engagement App is designed to:
 
 ## Youtube Video Link
 
-[![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/kYr0gMwX8T8)
+[![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/hHD-mNs8cyc)
 
 ---
 
 ## GitHub Link
 
-[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/JoseLubota/InternationalPayment.git)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/JoshieBoy454/CapeTownMunicipalityApp.git)
 
 ---
 
@@ -69,39 +69,28 @@ The Municipal Services User Engagement App is designed to:
 
 ## Setup Instructions
 
-1. **Clone the Repository**
+1. **Clone via Git:**
+   - Open your Git Bash or terminal.
+   - Run the following command to clone the repository:
+     ```bash
+     git clone https://github.com/JoshieBoy454/CapeTownMunicipalityApp.git
+     ```
 
-```bash
-git clone [repository_url](https://github.com/JoshieBoy454/CapeTownMunicipalityApp.git)
-```
+2. **Open the project:**
+   - Open Visual Studio.
+   - Click on `File` -> `Open` -> `Project/Solution`.
+   - Navigate to the cloned folder and select the `.sln` file to open the project.
+  
+3. **Restore Dependencies:**
+   - In Visual Studio, go to `Tools` -> `NuGet Package Manager` -> `Manage NuGet Packages for Solution`.
+   - Click on `Restore` to restore the necessary packages.
 
-2. **Open Project in Visual Studio**
+4. **Build the Project:**
+   - Press `Ctrl+Shift+B` to build the project.
 
-   * Select **Open an existing project**.
-   * Navigate to the cloned folder and open it.
-
-3. **Build the Project**
-
-   * Visual Studio will automatically download dependencies.
-
-4. **Run the App**
-   * Click **Run**.
-
----
-
-## Usage Instructions
-
-1. **Submitting Requests**
-
-   * Navigate to **Submit Request**.
-   * Enter a description, attach an image, and select the category.
-   * Click **Submit** to send the request.
-
-2. **Changing Language**
-
-   * Go to **Settings**.
-   * Choose desired language and presss **Done**.
-
+5. **Run the Application:**
+   - Press `F5` to run the application. Visual Studio will start the application, and you should see the application's main      window.
+     
 ---
 
 ## Architecture
@@ -127,8 +116,6 @@ git clone [repository_url](https://github.com/JoshieBoy454/CapeTownMunicipalityA
 [![Bootstrap](https://img.shields.io/badge/Bootstrap-frontend-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
 
 [![Visual Studio](https://img.shields.io/badge/Visual_Studio-IDE-5C2D91?style=for-the-badge&logo=visual-studio&logoColor=white)](https://visualstudio.microsoft.com/)
-
-
 
 ---
 
@@ -156,5 +143,8 @@ git clone [repository_url](https://github.com/JoshieBoy454/CapeTownMunicipalityA
 * tdykstra (2025b). Session in ASP.NET Core. [online] Microsoft.com. Available at: https://learn.microsoft.com/en-us/aspnet/core/fundamentals/app-state?view=aspnetcore-9.0 [Accessed 11 Sep. 2025].
 * Team, S. (2021). The Countries With the Most Official Languages | Ad Astra. [online] Ad-astrainc.com. Available at: https://ad-astrainc.com/blog/the-countries-with-the-most-official-languages-and-how-they-translate [Accessed 10 Sep. 2025].
 * TutorialsEU - C# (2025). [online] Youtu.be. Available at: https://youtu.be/DKaN8yjqHsw?si=EBL0icKsYP_qeH4w [Accessed 11 Sep. 2025].
+* ChatGPT. (2024). ChatGPT. [online] Available at: https://chatgpt.com/ [Accessed 15 Oct. 2025].
+
+‌
 
 ---
