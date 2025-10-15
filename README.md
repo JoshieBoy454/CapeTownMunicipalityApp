@@ -1,6 +1,20 @@
 # Cape Town Municipality App 
 
-An web application designed to enhance user engagement for municipal services in a South African context. The app allows citizens to report issues, track requests, and access municipal services efficiently.
+---
+
+[![C#](https://img.shields.io/badge/C%23-239120?logo=c-sharp&logoColor=white)](https://learn.microsoft.com/en-us/dotnet/csharp/)
+[![.NET](https://img.shields.io/badge/.NET-512BD4?logo=dotnet&logoColor=white)](https://dotnet.microsoft.com/)
+[![ASP.NET Core](https://img.shields.io/badge/ASP.NET_Core-512BD4?logo=dotnet&logoColor=white)](https://learn.microsoft.com/en-us/aspnet/core/)
+[![Razor Pages](https://img.shields.io/badge/Razor_Pages-68217A?logo=razor&logoColor=white)](https://learn.microsoft.com/en-us/aspnet/core/razor-pages/)
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5)
+[![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
+[![Entity Framework](https://img.shields.io/badge/Entity_Framework-68217A?logo=dotnet&logoColor=white)](https://learn.microsoft.com/en-us/ef/core/)
+[![SQL Server](https://img.shields.io/badge/SQL_Server-CC2927?logo=microsoft-sql-server&logoColor=white)](https://www.microsoft.com/en-us/sql-server)
+[![Bootstrap](https://img.shields.io/badge/Bootstrap-7952B3?logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
+[![Visual Studio](https://img.shields.io/badge/Visual_Studio-5C2D91?logo=visual-studio&logoColor=white)](https://visualstudio.microsoft.com/)
+
+A web application designed to enhance user engagement for municipal services in a South African context. The app allows citizens to report issues, track requests, and access municipal services efficiently.
 
 ---
 
@@ -23,14 +37,26 @@ The Municipal Services User Engagement App is designed to:
 
 2. **Citizen Engagement**
 
-   * A progress bar has been added to engage users
+   * A progress bar has been added to engage users.
    * Multi-Language support.
+  
+3. **Events and Announcements**
+
+   * Users can view Events and Announcements posted.
+   * Users can filter for specific events based on Category, Type, and Date.
+   * Frequently visited categories are captured and similar categories are displayed inthe **Recommedned for You** section.
 
 ---
 
-## Youtube
+## Youtube Video Link
 
-[Youtube Link](https://youtu.be/5CL91aXO6BY)
+[![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/kYr0gMwX8T8)
+
+---
+
+## GitHub Link
+
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/JoseLubota/InternationalPayment.git)
 
 ---
 
@@ -80,14 +106,29 @@ git clone [repository_url](https://github.com/JoshieBoy454/CapeTownMunicipalityA
 
 ## Architecture
 
-* **MVVM Pattern**
+[![C#](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white)](https://learn.microsoft.com/en-us/dotnet/csharp/)
 
-  * **Views**: Mediates between the UI and data layers.
-  * **Services**: Are used to handle all logic.
+[![.NET](https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)](https://dotnet.microsoft.com/)
 
-* **Doubly-Linked Lists**
+[![ASP.NET Core](https://img.shields.io/badge/ASP.NET_Core-web--framework-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)](https://learn.microsoft.com/en-us/aspnet/core/)
 
-  * Stores requests, categories, and feedback locally for offline access.
+[![Razor Pages](https://img.shields.io/badge/Razor_Pages-CSHTML-68217A?style=for-the-badge)](https://learn.microsoft.com/en-us/aspnet/core/razor-pages/)
+
+[![JavaScript](https://img.shields.io/badge/JavaScript-dynamic--scripts-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+
+[![HTML5](https://img.shields.io/badge/HTML5-markup-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5)
+
+[![CSS3](https://img.shields.io/badge/CSS3-styling-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
+
+[![Entity Framework](https://img.shields.io/badge/Entity_Framework-ORM-68217A?style=for-the-badge&logo=dotnet&logoColor=white)](https://learn.microsoft.com/en-us/ef/core/)
+
+[![SQL Server](https://img.shields.io/badge/SQL_Server-database-CC2927?style=for-the-badge&logo=microsoft-sql-server&logoColor=white)](https://www.microsoft.com/en-us/sql-server)
+
+[![Bootstrap](https://img.shields.io/badge/Bootstrap-frontend-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
+
+[![Visual Studio](https://img.shields.io/badge/Visual_Studio-IDE-5C2D91?style=for-the-badge&logo=visual-studio&logoColor=white)](https://visualstudio.microsoft.com/)
+
+
 
 ---
 
