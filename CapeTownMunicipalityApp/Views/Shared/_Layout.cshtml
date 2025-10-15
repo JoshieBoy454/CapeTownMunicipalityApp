@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNetCore.Mvc.Localization
+﻿@* Main layout template - used by all pages *@
+@using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 <!DOCTYPE html>
 <html lang="en">
@@ -10,7 +11,6 @@
     <link rel="stylesheet" href="~/CapeTownMunicipalityApp.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     @RenderSection("Styles", required: false)
-
 </head>
 <body>
     <header>
@@ -19,7 +19,6 @@
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     <img src="~/images/logo.png" alt="City of Cape Town Municipality" style="height:50px;" />
                 </a>
-
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
                         aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -65,7 +64,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2025 - CapeTownMunicipalityApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2025 - CapeTownMunicipalityApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Settings</a>
         </div>
     </footer>
 

@@ -5,32 +5,30 @@ using CapeTownMunicipalityApp.Models;
 
 namespace CapeTownMunicipalityApp.Controllers
 {
-/// <summary>
-/// Class: EventsAndAnnouncementsController
-/// 
-/// </summary>
-/// <remarks>
-/// </remarks>
-/// <author>Joshua Gain</author>
+    /// <summary>
+    /// Class: EventsAndAnnouncementsController
+    /// The main controller for the events/announcements page
+    /// </summary>
+    /// <remarks>
+    /// displays all the events/announcements and allows user to filter them
+    /// It displays the recommendations for user
+    /// </remarks>
+    /// <author>Joshua Gain</author>
     public class EventsAndAnnouncementsController : Controller
     {
         private readonly IEventService _eventService;
-
+        ///------------------------------------------------------------------------>
+        /// <summary>
+        /// Method: EventsAndAnnouncementsController
+        /// Constructor injects the service
+        /// </summary>
+        /// <param name="eventService">The service to get the events from</param>
+        /// <returns></returns>
         public EventsAndAnnouncementsController(IEventService eventService)
         {
             _eventService = eventService;
         }
-
         ///------------------------------------------------------------------------>
-        /// <summary>
-        /// Method: IActionResult Index
-        /// Main page displaying events and announcements with filtering
-        /// </summary>
-        /// <param name="category">Optional category filter</param>
-        /// <param name="type">Optional type filter (Event/Announcement)</param>
-        /// <param name="startDate">Optional start date filter</param>
-        /// <param name="endDate">Optional end date filter</param>
-        /// <returns></returns>
         public IActionResult Index(EventCategory? category = null, EventType? type = null, DateTime? startDate = null, DateTime? endDate = null)
         {
             ViewData["Title"] = "Events & Announcements";
@@ -42,21 +40,14 @@ namespace CapeTownMunicipalityApp.Controllers
             ViewBag.Events = events;
             ViewBag.Categories = categories;
             ViewBag.Dates = dates;
-            ViewBag.SelectedCategory = category;
+            ViewBag.SelectedCategory = category; 
             ViewBag.SelectedType = type;
             ViewBag.SelectedStartDate = startDate;
             ViewBag.SelectedEndDate = endDate;
             
             return View();
         }
-
         ///------------------------------------------------------------------------>
-        /// <summary>
-        /// Method: IActionResult GetEventDetails
-        /// Returns event details for modal popup
-        /// </summary>
-        /// <param name="id">Event ID</param>
-        /// <returns></returns>
         public IActionResult GetEventDetails(int id)
         {
             var eventItem = _eventService.GetEventById(id);
@@ -67,14 +58,7 @@ namespace CapeTownMunicipalityApp.Controllers
             
             return PartialView("_EventModal", eventItem);
         }
-
         ///------------------------------------------------------------------------>
-        /// <summary>
-        /// Method: IActionResult TrackInteraction
-        /// Tracks user interaction with categories for recommendations
-        /// </summary>
-        /// <param name="category">Category name</param>
-        /// <returns></returns>
         [HttpPost]
         public IActionResult TrackInteraction(string category)
         {
@@ -85,18 +69,12 @@ namespace CapeTownMunicipalityApp.Controllers
             
             return Json(new { success = true });
         }
-
         ///------------------------------------------------------------------------>
-        /// <summary>
-        /// Method: IActionResult GetRecommendations
-        /// Returns recommended events based on user interactions
-        /// </summary>
-        /// <param name="userInteractions">JSON string of user interactions</param>
-        /// <returns></returns>
         [HttpPost]
         public IActionResult GetRecommendations(string userInteractions)
         {
             var recommendations = _eventService.GetRecommendedEvents(userInteractions);
+            
             return PartialView("_Recommendations", recommendations);
         }
         ///------------------------------------------------------------------------>

@@ -6,6 +6,7 @@
     var events = ViewBag.Events as IEnumerable<Event>;
     var categories = ViewBag.Categories as IEnumerable<EventCategory>;
     var dates = ViewBag.Dates as IEnumerable<DateTime>;
+    
     var selectedCategory = ViewBag.SelectedCategory as EventCategory?;
     var selectedType = ViewBag.SelectedType as EventType?;
     var selectedStartDate = ViewBag.SelectedStartDate as DateTime?;
@@ -51,12 +52,12 @@
     .filter-group select:focus,
     .filter-group input:focus {
         outline: none;
-        border-color: #007bff;
-        box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+        border-color: #B0C434;
+        box-shadow: 0 0 0 2px rgba(176,196,52,0.25);
     }
     
     .btn-filter {
-        background: #007bff;
+        background: #B0C434;
         color: white;
         border: none;
         padding: 8px 20px;
@@ -67,7 +68,7 @@
     }
     
     .btn-filter:hover {
-        background: #0056b3;
+        background: #B0C434;
     }
     
     .main-content {
@@ -98,12 +99,12 @@
     
     .event-card-header {
         padding: 15px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #D95AA4 0%, #C60277 100%);
         color: white;
     }
     
     .event-card.announcement .event-card-header {
-        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        background: linear-gradient(135deg, #C7E20B 0%, #D6EA4E 100%);
     }
     
     .event-title {
@@ -164,7 +165,7 @@
         font-weight: 600;
         margin-bottom: 15px;
         color: #495057;
-        border-bottom: 2px solid #007bff;
+        border-bottom: 2px solid #B0C434;
         padding-bottom: 8px;
     }
     
@@ -178,7 +179,7 @@
     }
     
     .recommendation-item:hover {
-        border-color: #007bff;
+        border-color: #B0C434;
         background: #f8f9fa;
     }
     
@@ -218,7 +219,7 @@
     }
     
     .modal-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #D95AA4 0%, #C60277 100%);
         color: white;
         padding: 20px;
         border-radius: 8px 8px 0 0;
@@ -226,7 +227,7 @@
     }
     
     .modal-header.announcement {
-        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        background: linear-gradient(135deg, #C7E20B 0%, #D6EA4E 100%);
     }
     
     .modal-title {
@@ -315,12 +316,30 @@
             grid-template-columns: 1fr;
         }
     }
+    
+    .back {
+        position: fixed;
+        left: 16px;
+        top: 100px;
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        background: #eee;
+        cursor: pointer;
+        z-index: 1000;
+    }
+    
+    .back:hover {
+        background: #ddd;
+    }
 </style>
 
 <div class="container-fluid">
-    <h1 class="mb-4">@Localizer["Events & Announcements"]</h1>
+    <h1 class="mb-4 text-center">@Localizer["Events & Announcements"]</h1>
     
-    <!-- Filter Section -->
     <div class="filter-container">
         <form method="get" action="@Url.Action("Index")">
             <div class="filter-row">
@@ -365,9 +384,7 @@
         </form>
     </div>
     
-    <!-- Main Content -->
     <div class="main-content">
-        <!-- Events Grid -->
         <div class="events-section">
             <div class="events-grid">
                 @if (events != null && events.Any())
@@ -383,7 +400,7 @@
                             <div class="event-card-body">
                                 <p class="event-description">@evt.Description</p>
                                 <div class="event-meta">
-                                    <span class="event-date">@evt.Date.ToString("MMM dd, yyyy")</span>
+                                    <span class="event-date">@evt.Date.ToString("MMM dd, yyyy", System.Globalization.CultureInfo.InvariantCulture)</span>
                                     <span class="event-category">@Localizer[evt.Category.ToString()]</span>
                                 </div>
                             </div>
@@ -399,33 +416,27 @@
             </div>
         </div>
         
-        <!-- Recommendations Sidebar -->
         <div class="recommendations-sidebar">
             <h3 class="recommendations-title">@Localizer["Recommended for You"]</h3>
             <div id="recommendations-container">
-                <!-- Recommendations will be loaded here -->
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal -->
 <div id="eventModal" class="modal">
     <div class="modal-content">
         <div id="modalContent">
-            <!-- Modal content will be loaded here -->
         </div>
     </div>
 </div>
 
 <script>
-    // Track user interactions in localStorage
     function trackInteraction(category) {
         let interactions = JSON.parse(localStorage.getItem('eventInteractions') || '{}');
         interactions[category] = (interactions[category] || 0) + 1;
         localStorage.setItem('eventInteractions', JSON.stringify(interactions));
         
-        // Send to server
         fetch('@Url.Action("TrackInteraction")', {
             method: 'POST',
             headers: {
@@ -434,11 +445,9 @@
             body: 'category=' + encodeURIComponent(category)
         });
         
-        // Update recommendations
         loadRecommendations();
     }
     
-    // Open event modal
     function openEventModal(eventId, category) {
         trackInteraction(category);
         
@@ -456,7 +465,6 @@
         document.getElementById('eventModal').style.display = 'none';
     }
     
-    // Load recommendations based on user interactions
     function loadRecommendations() {
         const interactions = localStorage.getItem('eventInteractions') || '{}';
         
@@ -474,7 +482,6 @@
         .catch(error => console.error('Error:', error));
     }
     
-    // Close modal when clicking outside
     window.onclick = function(event) {
         const modal = document.getElementById('eventModal');
         if (event.target == modal) {
@@ -482,8 +489,13 @@
         }
     }
     
-    // Load recommendations on page load
     document.addEventListener('DOMContentLoaded', function() {
         loadRecommendations();
     });
 </script>
+
+<div class="back" onclick="location.href='/'">
+    <svg width="20" height="20" viewBox="0 0 24 24">
+        <path d="M15 18l-6-6 6-6" stroke="#333" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+</div>

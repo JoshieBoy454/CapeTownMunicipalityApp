@@ -1,4 +1,5 @@
-﻿using CapeTownMunicipalityApp.Models;
+﻿///-----------------------------------Start of File---------------------------------->
+using CapeTownMunicipalityApp.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace CapeTownMunicipalityApp.Services
@@ -7,10 +8,9 @@ namespace CapeTownMunicipalityApp.Services
     {
         private readonly LocalDbContext _db;
         private readonly string _imagePath;
-
         private readonly DoublyLinkedList<Report> _reportList = new();
         private readonly DoublyLinkedList<ReportAttatchment> _reportAttatchmentList = new();
-
+        ///------------------------------------------------------------------------>
         public ReportService(LocalDbContext db, IWebHostEnvironment env)
         {
             _db = db;
@@ -18,7 +18,7 @@ namespace CapeTownMunicipalityApp.Services
             if (!Directory.Exists(_imagePath))
                 Directory.CreateDirectory(_imagePath);
         }
-
+        ///------------------------------------------------------------------------>
         public async Task<Report> CreateReportAsync(string location, ReportCategory category, string description, IEnumerable<IFormFile> files)
         {
             var report = new Report
@@ -27,27 +27,33 @@ namespace CapeTownMunicipalityApp.Services
                 Category = category,
                 Description = description
             };
+            
             _db.Report.Add(report);
             await _db.SaveChangesAsync();
 
             foreach (var f in files ?? Enumerable.Empty<IFormFile>())
             {
-                if (f.Length <= 0) continue;
+                if (f.Length <= 0) continue; 
+                
                 var fileName = $"{Guid.NewGuid()}{Path.GetExtension(f.FileName)}";
                 var filePath = Path.Combine(_imagePath, fileName);
+                
                 using (var fs = new FileStream(filePath, FileMode.Create))
                 {
                     await f.CopyToAsync(fs);
                 }
+                
                 var attachment = new ReportAttatchment
                 {
                     ReportId = report.Id,
-                    FileName = f.FileName,
-                    FilePath = $"/images/{fileName}",
+                    FileName = f.FileName, 
+                    FilePath = $"/images/{fileName}", 
                 };
+                
                 _db.ReportAttatchment.Add(attachment);
                 report.Attatchments.Add(attachment);
             }
+            
             await _db.SaveChangesAsync();
 
             _reportList.AddLast(report);
@@ -55,21 +61,25 @@ namespace CapeTownMunicipalityApp.Services
             {
                 _reportAttatchmentList.AddLast(a);
             }
+            
             return report;
         }
-
+        ///------------------------------------------------------------------------>
         public async Task<IEnumerable<Report>> GetAllReportsAsync()
         {
             var reports = await _db.Report.Include(r => r.Attatchments).OrderBy(r => r.Id).ToListAsync();
+            
             _reportList.Clear();
             foreach (var r in reports) _reportList.AddLast(r);
+            
             return reports;
         }
-
+        ///------------------------------------------------------------------------>
         public async Task<Report?> GetReportAsync(int id)
         {
             foreach (var r in _reportList)
                 if (r.Id == id) return r;
+                
             var report = await _db.Report.Include(r => r.Attatchments).FirstOrDefaultAsync(r => r.Id == id);
             if (report != null)
             {
@@ -79,5 +89,7 @@ namespace CapeTownMunicipalityApp.Services
             }
             return report;
         }
+        ///------------------------------------------------------------------------>
     }
 }
+///-----------------------------------End of File----------------------------------->

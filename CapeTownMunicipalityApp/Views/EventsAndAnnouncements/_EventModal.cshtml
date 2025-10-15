@@ -7,13 +7,14 @@
     <h2 class="modal-title">@Model.Title</h2>
     <span class="close" onclick="closeModal()">&times;</span>
 </div>
+
 <div class="modal-body">
     <p class="modal-description">@Model.Description</p>
     
     <div class="modal-details">
         <div class="modal-detail-item">
             <div class="modal-detail-label">@Localizer["Date"]</div>
-            <div class="modal-detail-value">@Model.Date.ToString("MMMM dd, yyyy 'at' HH:mm")</div>
+            <div class="modal-detail-value">@Model.Date.ToString("MMMM dd, yyyy 'at' HH:mm", System.Globalization.CultureInfo.InvariantCulture)</div>
         </div>
         
         <div class="modal-detail-item">
