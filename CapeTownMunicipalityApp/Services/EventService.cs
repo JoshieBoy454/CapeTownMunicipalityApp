@@ -1,0 +1,186 @@
+using CapeTownMunicipalityApp.Models;
+using System.Collections.Generic;
+using System.Text.Json;
+
+namespace CapeTownMunicipalityApp.Services
+{
+    public class EventService : IEventService
+    {
+        private readonly List<Event> _events;
+        private readonly SortedDictionary<DateTime, List<Event>> _eventsByDate;
+        private readonly HashSet<EventCategory> _availableCategories;
+        private readonly HashSet<DateTime> _availableDates;
+        private readonly Dictionary<string, int> _categoryInteractionCounts;
+
+        public EventService()
+        {
+            _events = new List<Event>();
+            _eventsByDate = new SortedDictionary<DateTime, List<Event>>();
+            _availableCategories = new HashSet<EventCategory>();
+            _availableDates = new HashSet<DateTime>();
+            _categoryInteractionCounts = new Dictionary<string, int>();
+
+            InitializeHardcodedData();
+        }
+
+        private void InitializeHardcodedData()
+        {
+            var hardcodedEvents = new List<Event>
+            {
+                // Events
+                new Event { Id = 1, Title = "Community Clean-up Day", Description = "Join us for a community clean-up initiative in the city center. Bring gloves and enthusiasm!", Date = DateTime.Now.AddDays(3), Category = EventCategory.Community, Type = EventType.Event, Priority = 3, Location = "City Center", ContactInfo = "community@capetown.gov.za" },
+                new Event { Id = 2, Title = "Youth Soccer Tournament", Description = "Annual youth soccer tournament for ages 12-18. Registration required.", Date = DateTime.Now.AddDays(7), Category = EventCategory.Sports, Type = EventType.Event, Priority = 2, Location = "Athletic Field", ContactInfo = "sports@capetown.gov.za" },
+                new Event { Id = 3, Title = "Art Gallery Opening", Description = "Opening of the new contemporary art gallery featuring local artists.", Date = DateTime.Now.AddDays(10), Category = EventCategory.ArtsAndCulture, Type = EventType.Event, Priority = 2, Location = "Art Gallery", ContactInfo = "arts@capetown.gov.za" },
+                new Event { Id = 4, Title = "City Council Meeting", Description = "Monthly city council meeting open to public participation.", Date = DateTime.Now.AddDays(14), Category = EventCategory.PublicMeetings, Type = EventType.Event, Priority = 4, Location = "City Hall", ContactInfo = "council@capetown.gov.za" },
+                new Event { Id = 5, Title = "Digital Skills Workshop", Description = "Free workshop on basic digital skills for seniors.", Date = DateTime.Now.AddDays(5), Category = EventCategory.Workshops, Type = EventType.Event, Priority = 2, Location = "Community Center", ContactInfo = "workshops@capetown.gov.za" },
+                new Event { Id = 6, Title = "Heritage Walking Tour", Description = "Guided walking tour of historical Cape Town landmarks.", Date = DateTime.Now.AddDays(12), Category = EventCategory.ArtsAndCulture, Type = EventType.Event, Priority = 1, Location = "Various Locations", ContactInfo = "tourism@capetown.gov.za" },
+                new Event { Id = 7, Title = "Swimming Competition", Description = "Inter-school swimming competition at the municipal pool.", Date = DateTime.Now.AddDays(8), Category = EventCategory.Sports, Type = EventType.Event, Priority = 2, Location = "Municipal Pool", ContactInfo = "sports@capetown.gov.za" },
+                new Event { Id = 8, Title = "Environmental Workshop", Description = "Learn about sustainable living and environmental conservation.", Date = DateTime.Now.AddDays(15), Category = EventCategory.Workshops, Type = EventType.Event, Priority = 2, Location = "Environmental Center", ContactInfo = "environment@capetown.gov.za" },
+
+                // Announcements
+                new Event { Id = 9, Title = "Water Supply Maintenance", Description = "Scheduled water supply maintenance in District 6 area from 6 AM to 2 PM.", Date = DateTime.Now.AddDays(2), Category = EventCategory.WaterAndPower, Type = EventType.Announcement, Priority = 5, Location = "District 6", ContactInfo = "water@capetown.gov.za" },
+                new Event { Id = 10, Title = "Road Closure Notice", Description = "Main Street will be closed for road repairs from Monday to Friday.", Date = DateTime.Now.AddDays(1), Category = EventCategory.RoadClosures, Type = EventType.Announcement, Priority = 4, Location = "Main Street", ContactInfo = "roads@capetown.gov.za" },
+                new Event { Id = 11, Title = "Emergency Weather Alert", Description = "Severe weather warning: Heavy rainfall expected this weekend.", Date = DateTime.Now.AddDays(1), Category = EventCategory.EmergencyAlerts, Type = EventType.Announcement, Priority = 5, Location = "City Wide", ContactInfo = "emergency@capetown.gov.za" },
+                new Event { Id = 12, Title = "Library Service Update", Description = "Extended library hours during exam period: 8 AM to 10 PM.", Date = DateTime.Now.AddDays(4), Category = EventCategory.ServiceUpdates, Type = EventType.Announcement, Priority = 2, Location = "All Libraries", ContactInfo = "libraries@capetown.gov.za" },
+                new Event { Id = 13, Title = "Power Outage Scheduled", Description = "Planned power outage in Sea Point area for electrical upgrades.", Date = DateTime.Now.AddDays(6), Category = EventCategory.WaterAndPower, Type = EventType.Announcement, Priority = 4, Location = "Sea Point", ContactInfo = "power@capetown.gov.za" },
+                new Event { Id = 14, Title = "New Bus Routes", Description = "Introduction of new bus routes connecting suburbs to city center.", Date = DateTime.Now.AddDays(9), Category = EventCategory.ServiceUpdates, Type = EventType.Announcement, Priority = 3, Location = "Various Routes", ContactInfo = "transport@capetown.gov.za" },
+                new Event { Id = 15, Title = "Public Safety Notice", Description = "Increased police presence in CBD during peak hours.", Date = DateTime.Now.AddDays(3), Category = EventCategory.GeneralNews, Type = EventType.Announcement, Priority = 3, Location = "CBD", ContactInfo = "safety@capetown.gov.za" },
+                new Event { Id = 16, Title = "Holiday Schedule", Description = "Municipal offices will be closed on public holidays.", Date = DateTime.Now.AddDays(20), Category = EventCategory.GeneralNews, Type = EventType.Announcement, Priority = 2, Location = "All Offices", ContactInfo = "info@capetown.gov.za" }
+            };
+
+            foreach (var evt in hardcodedEvents)
+            {
+                _events.Add(evt);
+                _availableCategories.Add(evt.Category);
+                _availableDates.Add(evt.Date.Date);
+
+                if (!_eventsByDate.ContainsKey(evt.Date.Date))
+                {
+                    _eventsByDate[evt.Date.Date] = new List<Event>();
+                }
+                _eventsByDate[evt.Date.Date].Add(evt);
+            }
+        }
+
+        public IEnumerable<Event> GetAllEvents()
+        {
+            return _events.OrderByDescending(e => e.Priority).ThenBy(e => e.Date);
+        }
+
+        public IEnumerable<Event> GetEventsByCategory(EventCategory category)
+        {
+            return _events.Where(e => e.Category == category)
+                         .OrderByDescending(e => e.Priority)
+                         .ThenBy(e => e.Date);
+        }
+
+        public IEnumerable<Event> GetEventsByDateRange(DateTime startDate, DateTime endDate)
+        {
+            return _events.Where(e => e.Date.Date >= startDate.Date && e.Date.Date <= endDate.Date)
+                         .OrderByDescending(e => e.Priority)
+                         .ThenBy(e => e.Date);
+        }
+
+        public IEnumerable<Event> GetEventsByType(EventType type)
+        {
+            return _events.Where(e => e.Type == type)
+                         .OrderByDescending(e => e.Priority)
+                         .ThenBy(e => e.Date);
+        }
+
+        public IEnumerable<Event> GetFilteredEvents(EventCategory? category, EventType? type, DateTime? startDate, DateTime? endDate)
+        {
+            var query = _events.AsQueryable();
+
+            if (category.HasValue)
+                query = query.Where(e => e.Category == category.Value);
+
+            if (type.HasValue)
+                query = query.Where(e => e.Type == type.Value);
+
+            if (startDate.HasValue)
+                query = query.Where(e => e.Date.Date >= startDate.Value.Date);
+
+            if (endDate.HasValue)
+                query = query.Where(e => e.Date.Date <= endDate.Value.Date);
+
+            return query.OrderByDescending(e => e.Priority).ThenBy(e => e.Date);
+        }
+
+        public Event? GetEventById(int id)
+        {
+            return _events.FirstOrDefault(e => e.Id == id);
+        }
+
+        public IEnumerable<Event> GetRecommendedEvents(string userInteractionsJson)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(userInteractionsJson))
+                    return GetTopPriorityEvents();
+
+                var interactions = JsonSerializer.Deserialize<Dictionary<string, int>>(userInteractionsJson);
+                if (interactions == null || !interactions.Any())
+                    return GetTopPriorityEvents();
+
+                // Find most frequent categories
+                var topCategories = interactions.OrderByDescending(kvp => kvp.Value)
+                                              .Take(3)
+                                              .Select(kvp => Enum.Parse<EventCategory>(kvp.Key))
+                                              .ToList();
+
+                if (!topCategories.Any())
+                    return GetTopPriorityEvents();
+
+                // Get events from top categories
+                var recommendedEvents = new List<Event>();
+                foreach (var category in topCategories)
+                {
+                    var categoryEvents = GetEventsByCategory(category).Take(2);
+                    recommendedEvents.AddRange(categoryEvents);
+                }
+
+                return recommendedEvents.OrderByDescending(e => e.Priority)
+                                       .ThenBy(e => e.Date)
+                                       .Take(5);
+            }
+            catch
+            {
+                return GetTopPriorityEvents();
+            }
+        }
+
+        private IEnumerable<Event> GetTopPriorityEvents()
+        {
+            return _events.OrderByDescending(e => e.Priority)
+                         .ThenBy(e => e.Date)
+                         .Take(5);
+        }
+
+        public IEnumerable<EventCategory> GetAvailableCategories()
+        {
+            return _availableCategories.OrderBy(c => c.ToString());
+        }
+
+        public IEnumerable<DateTime> GetAvailableDates()
+        {
+            return _availableDates.OrderBy(d => d);
+        }
+
+        public void TrackUserInteraction(string category)
+        {
+            if (string.IsNullOrEmpty(category))
+                return;
+
+            if (_categoryInteractionCounts.ContainsKey(category))
+                _categoryInteractionCounts[category]++;
+            else
+                _categoryInteractionCounts[category] = 1;
+        }
+
+        public Dictionary<string, int> GetCategoryInteractionCounts()
+        {
+            return new Dictionary<string, int>(_categoryInteractionCounts);
+        }
+    }
+}

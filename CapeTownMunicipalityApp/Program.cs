@@ -24,14 +24,6 @@ var supportedCultures = new[]
     new CultureInfo("xh"),// isiXhosa
     new CultureInfo("zu"),// isiZulu
 
-    // To be implemented later
-    //new CultureInfo("ns"),// isiNdebele
-    //new CultureInfo("st"),// Sesotho
-    //new CultureInfo("nso"),// Sepedi
-    //new CultureInfo("tn"),// Setswana
-    //new CultureInfo("ss"),// siSwati
-    //new CultureInfo("ve"),// Tshivenda
-    //new CultureInfo("ts")// Xitsonga
 };
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
@@ -45,6 +37,7 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 builder.Services.AddDbContext<LocalDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IReportService, ReportService>();
+builder.Services.AddScoped<IEventService, EventService>();
 var app = builder.Build();
 
 

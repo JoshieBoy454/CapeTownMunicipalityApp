@@ -1,0 +1,19 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@using CapeTownMunicipalityApp.Models
+@inject IViewLocalizer Localizer
+@model IEnumerable<Event>
+
+@if (Model != null && Model.Any())
+{
+    @foreach (var evt in Model)
+    {
+        <div class="recommendation-item" onclick="openEventModal(@evt.Id, '@evt.Category')">
+            <div class="recommendation-title">@evt.Title</div>
+            <div class="recommendation-date">@evt.Date.ToString("MMM dd, yyyy")</div>
+        </div>
+    }
+}
+else
+{
+    <p class="text-muted">@Localizer["No recommendations available. Start exploring events to get personalized recommendations!"]</p>
+}

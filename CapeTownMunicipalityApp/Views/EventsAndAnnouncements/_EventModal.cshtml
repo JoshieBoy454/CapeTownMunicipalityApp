@@ -1,0 +1,45 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@using CapeTownMunicipalityApp.Models
+@inject IViewLocalizer Localizer
+@model Event
+
+<div class="modal-header @(Model.Type == EventType.Announcement ? "announcement" : "")">
+    <h2 class="modal-title">@Model.Title</h2>
+    <span class="close" onclick="closeModal()">&times;</span>
+</div>
+<div class="modal-body">
+    <p class="modal-description">@Model.Description</p>
+    
+    <div class="modal-details">
+        <div class="modal-detail-item">
+            <div class="modal-detail-label">@Localizer["Date"]</div>
+            <div class="modal-detail-value">@Model.Date.ToString("MMMM dd, yyyy 'at' HH:mm")</div>
+        </div>
+        
+        <div class="modal-detail-item">
+            <div class="modal-detail-label">@Localizer["Category"]</div>
+            <div class="modal-detail-value">@Localizer[Model.Category.ToString()]</div>
+        </div>
+        
+        <div class="modal-detail-item">
+            <div class="modal-detail-label">@Localizer["Type"]</div>
+            <div class="modal-detail-value">@Localizer[Model.Type.ToString()]</div>
+        </div>
+        
+        @if (!string.IsNullOrEmpty(Model.Location))
+        {
+            <div class="modal-detail-item">
+                <div class="modal-detail-label">@Localizer["Location"]</div>
+                <div class="modal-detail-value">@Model.Location</div>
+            </div>
+        }
+        
+        @if (!string.IsNullOrEmpty(Model.ContactInfo))
+        {
+            <div class="modal-detail-item">
+                <div class="modal-detail-label">@Localizer["Contact"]</div>
+                <div class="modal-detail-value">@Model.ContactInfo</div>
+            </div>
+        }
+    </div>
+</div>
