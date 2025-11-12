@@ -16,6 +16,8 @@
 
 A web application designed to enhance user engagement for municipal services in a South African context. The app allows citizens to report issues, track requests, and access municipal services efficiently.
 
+- By Joshua Gain ST10369044
+
 ---
 
 ## Overview
