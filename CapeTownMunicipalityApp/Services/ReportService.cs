@@ -14,10 +14,10 @@ namespace CapeTownMunicipalityApp.Services
         private readonly DoublyLinkedList<ReportAttatchment> _reportAttatchmentList = new();
         private static readonly Dictionary<ReportCategory, int> _categoryPriorities = new()
         {
-            [ReportCategory.Utilities] = 1,
-            [ReportCategory.Sanitation] = 2,
-            [ReportCategory.Roads] = 3,
-            [ReportCategory.Other] = 4
+            [ReportCategory.Utilities] = 1, // High
+            [ReportCategory.Sanitation] = 2, // Medium
+            [ReportCategory.Roads] = 2, // Medium
+            [ReportCategory.Other] = 3 // Low
         };
         ///------------------------------------------------------------------------>
         public ReportService(LocalDbContext db, IWebHostEnvironment env)
@@ -35,10 +35,10 @@ namespace CapeTownMunicipalityApp.Services
                 Location = location,
                 Category = category,
                 Description = description,
-                Status = ReportStatus.Submitted,
+                Status = ReportStatus.Pending,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
-                Priority = _categoryPriorities.TryGetValue(category, out var priority) ? priority : 3
+                Priority = _categoryPriorities.TryGetValue(category, out var priority) ? priority : 2
             };
 
             report.TrackingCode = await GenerateUniqueTrackingCodeAsync();

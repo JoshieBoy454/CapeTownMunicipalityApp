@@ -347,11 +347,14 @@
                     <label for="category">@Localizer["Category"]</label>
                     <select name="category" id="category">
                         <option value="">@Localizer["All Categories"]</option>
-                        @foreach (var cat in categories)
+                        @if (categories != null)
                         {
-                            <option value="@cat" selected="@(selectedCategory == cat)">
-                                @Localizer[cat.ToString()]
-                            </option>
+                            foreach (var cat in categories)
+                            {
+                                <option value="@cat" selected="@(selectedCategory == cat)">
+                                    @Localizer[cat.ToString()]
+                                </option>
+                            }
                         }
                     </select>
                 </div>

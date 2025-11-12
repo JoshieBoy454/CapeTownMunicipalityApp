@@ -30,11 +30,22 @@ namespace CapeTownMunicipalityApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            var progress = await _service.GetProgressAsync(report.Status);
-            ViewBag.ProgressPercent = progress.percent;
-            ViewBag.ProgressPath = progress.path;
             ViewData["Title"] = "Services";
             return View(report);
+        }
+
+        [HttpPost]
+        [IgnoreAntiforgeryToken]
+        public async Task<IActionResult> UpdatePriority(string trackingCode, bool increase)
+        {
+            if (string.IsNullOrWhiteSpace(trackingCode))
+                return Json(new { success = false, message = "Tracking code is required." });
+
+            var success = await _service.UpdatePriorityAsync(trackingCode, increase);
+            if (!success)
+                return Json(new { success = false, message = "Unable to update priority." });
+
+            return Json(new { success = true });
         }
     }
 }

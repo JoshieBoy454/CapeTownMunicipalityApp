@@ -15,10 +15,7 @@ namespace CapeTownMunicipalityApp.Services
             // Define allowed transitions and linear stages for progress
             _stages = new List<ReportStatus>
             {
-                ReportStatus.Submitted,
-                ReportStatus.Acknowledged,
-                ReportStatus.InProgress,
-                ReportStatus.OnHold,
+                ReportStatus.Pending,
                 ReportStatus.Resolved,
                 ReportStatus.Closed
             };
@@ -29,10 +26,7 @@ namespace CapeTownMunicipalityApp.Services
                 _adjacency[from].AddRange(to);
             }
 
-            Add(ReportStatus.Submitted, ReportStatus.Acknowledged, ReportStatus.Rejected);
-            Add(ReportStatus.Acknowledged, ReportStatus.InProgress, ReportStatus.OnHold);
-            Add(ReportStatus.InProgress, ReportStatus.OnHold, ReportStatus.Resolved);
-            Add(ReportStatus.OnHold, ReportStatus.InProgress, ReportStatus.Resolved);
+            Add(ReportStatus.Pending, ReportStatus.Resolved, ReportStatus.Closed);
             Add(ReportStatus.Resolved, ReportStatus.Closed);
         }
 

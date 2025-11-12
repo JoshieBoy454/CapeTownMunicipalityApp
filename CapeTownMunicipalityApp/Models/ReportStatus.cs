@@ -2,13 +2,9 @@ namespace CapeTownMunicipalityApp.Models
 {
     public enum ReportStatus
     {
-        Submitted,
-        Acknowledged,
-        InProgress,
-        OnHold,
+        Pending,
         Resolved,
-        Closed,
-        Rejected
+        Closed
     }
 }
 

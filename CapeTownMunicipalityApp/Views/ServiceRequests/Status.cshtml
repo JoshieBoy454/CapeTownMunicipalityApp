@@ -2,9 +2,94 @@
 @using CapeTownMunicipalityApp.Models
 @{
     ViewData["Title"] = "Services";
-    var percent = (double)(ViewBag.ProgressPercent ?? 0d);
-    var path = (IEnumerable<ReportStatus>)(ViewBag.ProgressPath ?? Array.Empty<ReportStatus>());
+
+    string PriorityLabel(int priority)
+    {
+        // Normalize priority to valid range (1-3)
+        var normalizedPriority = priority switch
+        {
+            <= 1 => 1,
+            >= 3 => 3,
+            _ => priority
+        };
+        
+        return normalizedPriority switch
+        {
+            1 => "High",
+            2 => "Medium",
+            3 => "Low",
+            _ => "Medium"
+        };
+    }
+
+    string PriorityColorClass(int priority)
+    {
+        // Normalize priority to valid range (1-3)
+        var normalizedPriority = priority switch
+        {
+            <= 1 => 1,
+            >= 3 => 3,
+            _ => priority
+        };
+        
+        return normalizedPriority switch
+        {
+            1 => "priority-high",
+            2 => "priority-medium",
+            3 => "priority-low",
+            _ => "priority-medium"
+        };
+    }
+
+    string StatusBadge(CapeTownMunicipalityApp.Models.ReportStatus status) => status switch
+    {
+        CapeTownMunicipalityApp.Models.ReportStatus.Pending => "status-pending",
+        CapeTownMunicipalityApp.Models.ReportStatus.Resolved => "status-resolved",
+        CapeTownMunicipalityApp.Models.ReportStatus.Closed => "status-closed",
+        _ => "status-pending"
+    };
 }
+
+<style>
+    .priority-tag {
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 12px;
+        display: inline-block;
+        min-width: 60px;
+        text-align: center;
+    }
+
+    .priority-tag.priority-high {
+        background: rgba(239, 68, 68, 0.2);
+        color: #991b1b;
+    }
+
+    .priority-tag.priority-medium {
+        background: rgba(249, 115, 22, 0.2);
+        color: #9a3412;
+    }
+
+    .priority-tag.priority-low {
+        background: rgba(34, 197, 94, 0.2);
+        color: #166534;
+    }
+
+    .status-badge {
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        display: inline-block;
+    }
+
+    .status-badge.status-pending { background: rgba(176, 196, 52, 0.2); color: #4a5a1a; }
+    .status-badge.status-resolved { background: rgba(102, 187, 106, 0.2); color: #1b5e20; }
+    .status-badge.status-closed { background: rgba(96, 125, 139, 0.2); color: #263238; }
+</style>
 
 <div class="container mt-4">
     <h2>Request Status</h2>
@@ -18,27 +103,29 @@
                     <div><strong>Location:</strong> @Model.Location</div>
                 </div>
                 <div class="col-md-6">
-                    <div><strong>Current Status:</strong> @Model.Status</div>
-                    <div><strong>Priority:</strong> @Model.Priority</div>
+                    <div><strong>Current Status:</strong> <span class="status-badge @StatusBadge(Model.Status)">@Model.Status</span></div>
+                    <div><strong>Priority:</strong> <span class="priority-tag @PriorityColorClass(Model.Priority)">@PriorityLabel(Model.Priority)</span></div>
                     <div><strong>Created:</strong> @Model.CreatedAt.ToLocalTime().ToString("g")</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="mb-3">
-        <label class="form-label">Progress</label>
-        <div class="progress" style="height: 24px;">
-            <div class="progress-bar" role="progressbar" style="width:@percent%">
-                @($"{percent:0}%")
-            </div>
-        </div>
-        <div class="mt-2 text-muted">
-            @string.Join(" → ", path)
+    <div class="card">
+        <div class="card-header">Description</div>
+        <div class="card-body">
+            @if (!string.IsNullOrWhiteSpace(Model.Description))
+            {
+                <p class="mb-0">@Model.Description</p>
+            }
+            else
+            {
+                <p class="text-muted mb-0">No description provided for this request.</p>
+            }
         </div>
     </div>
 
-    <div class="card">
+    <div class="card mt-3">
         <div class="card-header">Attachments</div>
         <ul class="list-group list-group-flush">
             @if (Model.Attatchments != null && Model.Attatchments.Count > 0)
@@ -61,5 +148,3 @@
         <a asp-controller="ServiceRequests" asp-action="Index" class="btn btn-secondary">Back to List</a>
     </div>
 </div>
-
-

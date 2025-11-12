@@ -6,7 +6,6 @@ namespace CapeTownMunicipalityApp.Services
     public class ServiceRequestService : IServiceRequestService
     {
         private readonly LocalDbContext _db;
-        private readonly StatusGraph _graph = new();
 
         public ServiceRequestService(LocalDbContext db)
         {
@@ -43,22 +42,43 @@ namespace CapeTownMunicipalityApp.Services
 
         public async Task<Report?> FindByTrackingCodeAsync(string trackingCode)
         {
-            // Load all into BST for O(log n) lookups by key (demonstrative; EF can query directly)
-            var items = await _db.Report.AsNoTracking()
+            return await _db.Report
                 .Include(r => r.Attatchments)
-                .ToListAsync();
-            var bst = new BinarySearchTree<string, Report>(StringComparer.OrdinalIgnoreCase);
-            foreach (var r in items)
-                bst.Insert(r.TrackingCode, r);
-
-            return bst.TryGetValue(trackingCode, out var found) ? found : null;
+                .FirstOrDefaultAsync(r => r.TrackingCode == trackingCode);
         }
 
-        public Task<(double percent, List<ReportStatus> path)> GetProgressAsync(ReportStatus current)
+        public async Task<bool> UpdatePriorityAsync(string trackingCode, bool increase)
         {
-            var path = _graph.ShortestPath(ReportStatus.Submitted, current);
-            var percent = _graph.GetProgressPercent(current);
-            return Task.FromResult((percent, path));
+            var report = await _db.Report.FirstOrDefaultAsync(r => r.TrackingCode == trackingCode);
+            if (report == null)
+                return false;
+
+            // Normalize priority to valid range (1-3)
+            var currentPriority = report.Priority switch
+            {
+                <= 1 => 1,
+                >= 3 => 3,
+                _ => report.Priority
+            };
+
+            // Priority: 1=High, 2=Medium, 3=Low
+            // Increase means higher priority (lower number), decrease means lower priority (higher number)
+            if (increase && currentPriority > 1)
+            {
+                report.Priority = currentPriority - 1;
+            }
+            else if (!increase && currentPriority < 3)
+            {
+                report.Priority = currentPriority + 1;
+            }
+            else
+            {
+                return false; // Already at min/max
+            }
+
+            report.UpdatedAt = DateTime.UtcNow;
+            await _db.SaveChangesAsync();
+            return true;
         }
     }
 }

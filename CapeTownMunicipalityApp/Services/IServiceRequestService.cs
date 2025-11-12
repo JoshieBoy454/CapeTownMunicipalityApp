@@ -6,7 +6,7 @@ namespace CapeTownMunicipalityApp.Services
     {
         Task<IEnumerable<Report>> GetAllAsync(string? query = null);
         Task<Report?> FindByTrackingCodeAsync(string trackingCode);
-        Task<(double percent, List<ReportStatus> path)> GetProgressAsync(ReportStatus current);
+        Task<bool> UpdatePriorityAsync(string trackingCode, bool increase);
     }
 }
 

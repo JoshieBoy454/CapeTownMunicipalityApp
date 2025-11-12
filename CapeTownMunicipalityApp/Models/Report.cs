@@ -10,10 +10,10 @@ namespace CapeTownMunicipalityApp.Models
 
         // Service request tracking
         public string TrackingCode { get; set; } = ""; // unique human-friendly code
-        public ReportStatus Status { get; set; } = ReportStatus.Submitted;
+        public ReportStatus Status { get; set; } = ReportStatus.Pending;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
-        public int Priority { get; set; } = 0;
+        public int Priority { get; set; } = 2; // 1=High, 2=Medium, 3=Low
 
         public List<ReportAttatchment> Attatchments { get; set; } = new(); 
     }
