@@ -454,7 +454,7 @@
                     updatedAt = r.UpdatedAt?.ToLocalTime().ToString("f") ?? "Pending update",
                     description = string.IsNullOrWhiteSpace(r.Description) ? "No description provided." : r.Description,
                     attachments = (r.Attatchments ?? new List<CapeTownMunicipalityApp.Models.ReportAttatchment>())
-                        .Select(a => new { a.FileName, a.FilePath })
+                        .Select(a => new { FileName = a.FileName, FilePath = a.FilePath })
                 };
 
                 var jsonPayload = JsonSerializer.Serialize(payload, jsonOptions);
@@ -572,13 +572,9 @@
         attachmentsList.innerHTML = '';
         if (data.attachments && data.attachments.length > 0) {
             data.attachments.forEach(att => {
+                const fileName = att.FileName || att.fileName || 'Attachment';
                 const li = document.createElement('li');
-                const link = document.createElement('a');
-                link.href = att.filePath;
-                link.textContent = att.fileName || 'Attachment';
-                link.setAttribute('target', '_blank');
-                link.setAttribute('rel', 'noopener');
-                li.appendChild(link);
+                li.textContent = fileName;
                 attachmentsList.appendChild(li);
             });
         } else {

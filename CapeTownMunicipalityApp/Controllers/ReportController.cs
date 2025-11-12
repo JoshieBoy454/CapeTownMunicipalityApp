@@ -20,13 +20,13 @@ namespace CapeTownMunicipalityApp.Controllers
             return View();
         }
         ///------------------------------------------------------------------------>
-        public async Task<IActionResult> Submit(string location, ReportCategory category, string description, List<IFormFile> attatchments)
+        public async Task<IActionResult> Submit(string location, ReportCategory category, string description, List<IFormFile> attachments)
         {
             try
             {
-                var report = await _reportService.CreateReportAsync(location ?? "", category, description ?? "", attatchments);
+                var report = await _reportService.CreateReportAsync(location ?? "", category, description ?? "", attachments);
                 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "ServiceRequests");
             }
             catch (Exception ex)
             {
