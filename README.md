@@ -50,7 +50,7 @@ The Municipal Services User Engagement App is designed to:
 
 ## Youtube Video Link
 
-[![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/hHD-mNs8cyc)
+[![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/PakiE3Z3yxc)
 
 ---
 
@@ -156,7 +156,7 @@ The Municipal Services User Engagement App is designed to:
 * Team, S. (2021). The Countries With the Most Official Languages | Ad Astra. [online] Ad-astrainc.com. Available at: https://ad-astrainc.com/blog/the-countries-with-the-most-official-languages-and-how-they-translate [Accessed 10 Sep. 2025].
 * TutorialsEU - C# (2025). [online] Youtu.be. Available at: https://youtu.be/DKaN8yjqHsw?si=EBL0icKsYP_qeH4w [Accessed 11 Sep. 2025].
 * ChatGPT. (2024). ChatGPT. [online] Available at: https://chatgpt.com/ [Accessed 15 Oct. 2025].
-
-‌
+* Reference listGeeksforGeeks (2023). Introduction to MinHeap. [online] GeeksforGeeks. Available at: https://www.geeksforgeeks.org/dsa/introduction-to-min-heap-data-structure/ [Accessed 12 Nov. 2025].
+* GeeksforGeeks (2024). Binary Search Tree. [online] GeeksforGeeks. Available at: https://www.geeksforgeeks.org/dsa/binary-search-tree-data-structure/ [Accessed 12 Nov. 2025].
 
 ---
