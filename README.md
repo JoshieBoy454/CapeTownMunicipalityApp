@@ -130,6 +130,17 @@ The Municipal Services User Engagement App is designed to:
 
 ---
 
+## Changes
+
+* Implemented Services page that allows users to track their submitted reports and service requests, ordered in a list form.
+* Added a search/filter feature to search specific revice requests.
+* Created unique identifiers (tracking code) that users can use to track their specific requests.
+* Created a modal to display specific information on service requests.
+* Implmented a min heap binary tree, binary search tree, and status graph.
+* Minor fixes to ui and redirection logic
+
+---
+
 ## References
 
 * listCodeBeauty (2025). [online] Youtu.be. Available at: https://youtu.be/-StYr9wILqo?si=Fv-mWDv_bcmqK8Pz [Accessed 10 Sep. 2025].
