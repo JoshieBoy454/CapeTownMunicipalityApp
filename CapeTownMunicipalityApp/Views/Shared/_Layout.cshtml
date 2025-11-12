@@ -35,12 +35,12 @@
                                asp-area="" asp-controller="Report" asp-action="Form">@Localizer["Report"]</a>
                         </li>
                         <li class="nav-item">
-                            <a class="btn me-2 @(ViewData["Title"]?.ToString() == "Events & Announcements" ? "active-nav" : "")"
-                               asp-area="" asp-controller="EventsAndAnnouncements" asp-action="Index">@Localizer["Events"]</a>
+                            <a class="btn me-2 @(ViewData["Title"]?.ToString() == "Service Requests" ? "active-nav" : "")"
+                               asp-area="" asp-controller="ServiceRequests" asp-action="Index">@Localizer["Service Requests"]</a>
                         </li>
                         <li class="nav-item">
-                            <a class="btn me-2 @(ViewData["Title"]?.ToString() == "Services" ? "active-nav" : "")"
-                               asp-area="" asp-controller="Services" asp-action="Temp">@Localizer["Services"]</a>
+                            <a class="btn me-2 @(ViewData["Title"]?.ToString() == "Events & Announcements" ? "active-nav" : "")"
+                               asp-area="" asp-controller="EventsAndAnnouncements" asp-action="Index">@Localizer["Events"]</a>
                         </li>
                     </ul>
 

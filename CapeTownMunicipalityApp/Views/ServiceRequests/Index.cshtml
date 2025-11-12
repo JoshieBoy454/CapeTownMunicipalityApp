@@ -1,0 +1,51 @@
+@model IEnumerable<CapeTownMunicipalityApp.Models.Report>
+@{
+    ViewData["Title"] = "Service Requests";
+}
+
+<div class="container mt-4">
+    <h2>Service Requests</h2>
+
+    <form method="get" class="row g-2 mb-3">
+        <div class="col-sm-10">
+            <input type="text" name="q" value="@Context.Request.Query["q"]" class="form-control" placeholder="Search by tracking code, location, or description" />
+        </div>
+        <div class="col-sm-2 d-grid">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table table-striped align-middle">
+            <thead>
+                <tr>
+                    <th>Tracking Code</th>
+                    <th>Category</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                    <th>Created</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var r in Model)
+            {
+                <tr>
+                    <td>@r.TrackingCode</td>
+                    <td>@r.Category</td>
+                    <td>@r.Location</td>
+                    <td>@r.Status</td>
+                    <td>@r.Priority</td>
+                    <td>@r.CreatedAt.ToLocalTime().ToString("g")</td>
+                    <td class="text-end">
+                        <a asp-controller="ServiceRequests" asp-action="Status" asp-route-trackingCode="@r.TrackingCode" class="btn btn-sm btn-outline-secondary">View</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

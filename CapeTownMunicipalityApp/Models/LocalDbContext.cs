@@ -19,6 +19,11 @@ namespace CapeTownMunicipalityApp.Models
                 .WithOne() 
                 .HasForeignKey("ReportId") 
                 .OnDelete(DeleteBehavior.Cascade); 
+
+            // Unique index on TrackingCode for fast lookup and uniqueness
+            modelBuilder.Entity<Report>()
+                .HasIndex(r => r.TrackingCode)
+                .IsUnique();
         }
         ///------------------------------------------------------------------------>
     }

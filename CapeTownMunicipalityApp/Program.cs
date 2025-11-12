@@ -45,6 +45,7 @@ builder.Services.AddDbContext<LocalDbContext>(options =>
 // Register our custom services
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<IServiceRequestService, ServiceRequestService>();
 
 // Build the app
 var app = builder.Build();
