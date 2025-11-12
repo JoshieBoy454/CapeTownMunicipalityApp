@@ -1,4 +1,6 @@
 ﻿///-----------------------------------Start of File---------------------------------->
+using System;
+using System.Collections.Generic;
 using CapeTownMunicipalityApp.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,6 +12,13 @@ namespace CapeTownMunicipalityApp.Services
         private readonly string _imagePath;
         private readonly DoublyLinkedList<Report> _reportList = new();
         private readonly DoublyLinkedList<ReportAttatchment> _reportAttatchmentList = new();
+        private static readonly Dictionary<ReportCategory, int> _categoryPriorities = new()
+        {
+            [ReportCategory.Utilities] = 1,
+            [ReportCategory.Sanitation] = 2,
+            [ReportCategory.Roads] = 3,
+            [ReportCategory.Other] = 4
+        };
         ///------------------------------------------------------------------------>
         public ReportService(LocalDbContext db, IWebHostEnvironment env)
         {
@@ -25,9 +34,15 @@ namespace CapeTownMunicipalityApp.Services
             {
                 Location = location,
                 Category = category,
-                Description = description
+                Description = description,
+                Status = ReportStatus.Submitted,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
+                Priority = _categoryPriorities.TryGetValue(category, out var priority) ? priority : 3
             };
-            
+
+            report.TrackingCode = await GenerateUniqueTrackingCodeAsync();
+
             _db.Report.Add(report);
             await _db.SaveChangesAsync();
 
@@ -53,7 +68,7 @@ namespace CapeTownMunicipalityApp.Services
                 _db.ReportAttatchment.Add(attachment);
                 report.Attatchments.Add(attachment);
             }
-            
+            report.UpdatedAt = DateTime.UtcNow;
             await _db.SaveChangesAsync();
 
             _reportList.AddLast(report);
@@ -63,6 +78,21 @@ namespace CapeTownMunicipalityApp.Services
             }
             
             return report;
+        }
+        private async Task<string> GenerateUniqueTrackingCodeAsync()
+        {
+            for (var attempt = 0; attempt < 15; attempt++)
+            {
+                var raw = Guid.NewGuid().ToString("N").ToUpperInvariant();
+                var candidate = $"SR-{raw[..4]}-{raw[4..8]}";
+
+                if (!await _db.Report.AnyAsync(r => r.TrackingCode == candidate))
+                {
+                    return candidate;
+                }
+            }
+
+            throw new InvalidOperationException("Unable to generate a unique tracking code.");
         }
         ///------------------------------------------------------------------------>
         public async Task<IEnumerable<Report>> GetAllReportsAsync()

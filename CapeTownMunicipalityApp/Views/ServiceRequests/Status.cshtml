@@ -1,7 +1,7 @@
 @model CapeTownMunicipalityApp.Models.Report
 @using CapeTownMunicipalityApp.Models
 @{
-    ViewData["Title"] = "Request Status";
+    ViewData["Title"] = "Services";
     var percent = (double)(ViewBag.ProgressPercent ?? 0d);
     var path = (IEnumerable<ReportStatus>)(ViewBag.ProgressPath ?? Array.Empty<ReportStatus>());
 }

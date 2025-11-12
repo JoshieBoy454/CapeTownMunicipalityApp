@@ -13,7 +13,7 @@ namespace CapeTownMunicipalityApp.Controllers
 
         public async Task<IActionResult> Index(string? q)
         {
-            ViewData["Title"] = "Service Requests";
+            ViewData["Title"] = "Services";
             var items = await _service.GetAllAsync(q);
             return View(items);
         }
@@ -33,6 +33,7 @@ namespace CapeTownMunicipalityApp.Controllers
             var progress = await _service.GetProgressAsync(report.Status);
             ViewBag.ProgressPercent = progress.percent;
             ViewBag.ProgressPath = progress.path;
+            ViewData["Title"] = "Services";
             return View(report);
         }
     }

@@ -1,4 +1,5 @@
 // Main program file - this is where everything starts up
+using CapeTownMunicipalityApp.Data;
 using CapeTownMunicipalityApp.Models;
 using CapeTownMunicipalityApp.Services;
 using SQLitePCL;
@@ -55,7 +56,8 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<LocalDbContext>();
-    db.Database.Migrate(); // This creates/updates the database tables
+    await db.Database.MigrateAsync(); // This creates/updates the database tables
+    await DataSeeder.EnsureSeedDataAsync(db); // Seed baseline service requests
 }
 
 // Configure the HTTP request pipeline
